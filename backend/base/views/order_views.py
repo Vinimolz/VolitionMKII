@@ -9,6 +9,8 @@ from base.serializer import ProductSerializer, OrderSerializer
 from base.models import Product, Order, OrderItem, ShippingAddress
 from base.products import products
 
+from datetime import datetime
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_order_items(request):
@@ -69,4 +71,13 @@ def get_order_by_id(request, pk):
             Response({'detail': 'Not autorized to view order'}, status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response({'detail': 'Order does not exists'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])    
+def update_order_to_paid(request, pk):
+    order = Order.objects.get(_id=pk)
+
+    order.isPaid = True
+    order.paidAt = datetime.now()
+    order.save()
+    return Response('Order was paid')
