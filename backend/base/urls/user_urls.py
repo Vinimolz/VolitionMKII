@@ -15,4 +15,8 @@ urlpatterns = [
     path('', views.get_users, name='users'),
 
     path('delete/<str:pk>/', views.delete_user, name='delete_user'),
+
+    path('<str:pk>/', views.get_users_by_id, name='get_user_by_id'),
+    path('update/<str:pk>/', views.update_user, name='update_user'),
+    
 ]
